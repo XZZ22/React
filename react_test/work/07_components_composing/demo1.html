@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>07_state_demo</title>
+</head>
+<body>
+  <div>
+    <h2>Simple TODO List</h2>
+    <input type="text">
+    <button>Add #4</button>
+    <ul>
+      <li>吃饭</li>
+      <li>睡觉</li>
+      <li>打豆豆</li>
+    </ul>
+  </div>
+  <hr>
+
+  <div id="test">在此实现页面效果和功能</div>
+
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+  <script type="text/babel">
+    /*
+    功能: 组件化实现此功能
+      1. 界面显示如上所示
+      2. 输入文本, 点击按钮显示到下面列表的首位, 并清除输入的文本
+     */
+    /*
+    问题: 完善功能
+      1). 如果没有输入或输入的只是空格, 不添加到列表
+      2). 如果输入的文本两边有空格, 去掉空格后添加
+    */
+    /*
+      1. 拆分组件
+        App 应用主组件
+        AddTodo 添加todo组件
+        TodoList 显示todo组件
+      2. 分析数据存放的位置
+        App
+        步骤：
+
+
+
+    功能界面的组件化编码流程(无比重要)
+        1)拆分组件: 拆分界面,抽取组件
+        2)实现静态组件: 使用组件实现静态页面效果
+        3)实现动态组件
+        a.动态显示初始化数据
+        b.交互功能(从绑定事件监听开始)
+     */
+
+
+//定义APP组件
+class APP extends React.Component{
+  constructor(props){
+    super(props);
+  //  定义初始化状态
+    this.state = {
+      todoList:['吃饭','睡觉','打豆豆']
+    }
+    this.add = this.add.bind(this)
+  }
+  add(todo){
+  //  获取内容
+    const {todoList} = this.state;
+  //  将内容插入到
+    todoList.unshift(todo);
+  //  更新数据
+
+    this.setState({todoList});
+
+  }
+
+  render(){
+    const {todoList} = this.state;
+    return (
+      <div>
+      <h2>Simple TODO List</h2>
+        <Addtodo add={this.add} length={todoList.length} />
+        <Todolist todoList={todoList} />
+    </div>)
+  }
+}
+
+//定义Addtodo
+class Addtodo extends React.Component{
+  constructor(props){
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+
+  }
+  handleClick(){
+    let value = this.refs.todo.value.trim();
+    if(value){
+    //  将内容添加到列表中
+      this.props.add(value);
+    //  将文本框清零
+      this.refs.todo.value = '';
+    }
+  }
+
+  render(){
+    const {length} = this.props;
+    return (
+      <div>
+        <input type="text" ref='todo' />
+        <button onClick={this.handleClick}>Add #{length}</button>
+      </div>
+    )
+  }
+}
+
+//定义Todolist
+class Todolist extends React.Component{
+  render(){
+    const {todoList} = this.props;
+    return(
+    <ul>
+      {todoList.map((item,index)=><li key={index}>{item}</li>)}
+    </ul>
+    )
+  }
+}
+
+ReactDOM.render(<APP/>,document.getElementById('test'));
+  </script>
+</body>
+</html>
+

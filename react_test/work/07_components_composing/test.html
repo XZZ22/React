@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>05_components_composing</title>
+</head>
+<body>
+<div>
+  <h1>Hello React</h1>
+  <ul>
+    <li>Welcome A!</li>
+    <li>Welcome B!</li>
+    <li>Welcome C!</li>
+  </ul>
+</div>
+<hr>
+
+<div id="test"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+
+
+  class Welcome extends React.Component{
+    constructor(props){
+      super(props)
+    }
+
+
+    //经过遍历生成的相同结果的虚拟dom元素，必须有一个key,index是最为这个key-index是键值对首选
+    render(){
+      const arr=['Welcome A!','Welcome B!','Welcome C!'];
+      return(<ul>
+        {arr.map((item,index)=><li key={index}>{item}</li>)}
+      </ul>)
+    }
+
+  }
+  ReactDOM.render(<Welcome />,document.getElementById('test'));
+</script>
+</body>
+</html>
